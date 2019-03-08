@@ -6,3 +6,8 @@ uninstall.sh
 utils.sh
 setup.sh
 workflow.sh
+clamav-install.sh
+clamav-istall.sh
+freshclam.conf
+ssmtp-install.sh
+ssmtp.conf
