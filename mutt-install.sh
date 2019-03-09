@@ -15,7 +15,6 @@ case "${unameOut}" in
     # MINGW*)     machine=MinGw;;
     *)          machine="UNKNOWN:${unameOut}"
 esac
-machine=${machine}
 
 # Install mutt
 if [ ${machine} = "Linux" ]; then
@@ -38,7 +37,7 @@ EMAIL_PASSWORD=$2
 SERVER=$3 # mail.riseup.net
 ID=$4
 
-sudo rm ~/.muttrc* # TO DO: include backup 
+sudo rm ~/.muttrc* # TO DO: include backup
 sudo cp .muttrc ~/.muttrc
 sudo chmod 600 ~/.muttrc
 
@@ -48,7 +47,7 @@ if [ ${machine} = "Linux" ]; then
   sudo sed -i "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
   sudo sed -i "s/SERVER/$SERVER/g" ~/.muttrc
   sudo sed -i "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
-else
+else # MacOS
   sudo sed -i '' "s/ID/$ID/g" ~/.muttrc
   sudo sed -i '' "s/USERNAME/$_USERNAME/g" ~/.muttrc
   sudo sed -i '' "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
