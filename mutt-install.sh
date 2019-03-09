@@ -18,11 +18,11 @@ esac
 machine=${machine}
 
 # Install mutt
-if [ machine=="Linux" ]; then
+if [ ${machine} = "Linux" ]; then
   sudo apt-get purge --auto-remove mutt -y
   sudo apt-get update
   sudo apt-get install mutt -y
-elif [ machine=="Mac" ]; then
+elif [ ${machine} = "Mac" ]; then
   /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   brew uninstall -f mutt
   brew install mutt
@@ -40,11 +40,20 @@ ID=$4
 # SET_FOLDER="imap.gmail.com:993"
 sudo cp .muttrc ~/.muttrc
 sudo chmod 600 ~/.muttrc
-sudo sed -i "s/ID/$ID/g" ~/.muttrc
-sudo sed -i "s/USERNAME/$_USERNAME/g" ~/.muttrc
-sudo sed -i "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
-sudo sed -i "s/SERVER/$SERVER/g" ~/.muttrc
-sudo sed -i "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
+
+if [ ${machine} = "Linux" ]; then
+  sudo sed -i "s/ID/$ID/g" ~/.muttrc
+  sudo sed -i "s/USERNAME/$_USERNAME/g" ~/.muttrc
+  sudo sed -i "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
+  sudo sed -i "s/SERVER/$SERVER/g" ~/.muttrc
+  sudo sed -i "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
+else
+  sudo sed -i '' "s/ID/$ID/g" ~/.muttrc
+  sudo sed -i '' "s/USERNAME/$_USERNAME/g" ~/.muttrc
+  sudo sed -i '' "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
+  sudo sed -i '' "s/SERVER/$SERVER/g" ~/.muttrc
+  sudo sed -i '' "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
+fi
 
 sleep .5
 echo "-------------------------------------------------------------------------"
