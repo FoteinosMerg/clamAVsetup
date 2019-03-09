@@ -1,13 +1,13 @@
 #!/bin/bash
-# written by Tomas (http://www.lisenet.com)
-# 17/01/2014 (dd/mm/yy)
-# copyleft free software
-#
+
+# USAGE
+#./clamscan_daily.sh <DIRTOSCAN>
+
 LOGFILE="/var/log/clamav/clamav-$(date +'%Y-%m-%d').log";
 EMAIL_MSG="Please see the log file attached.";
 EMAIL_FROM="foteinosmerg@gmail.com";
 EMAIL_TO="foteinosmerg@protonmail.com";
-DIRTOSCAN="/home/beast/projects/pymerkle/pymerkle";
+DIRTOSCAN=$1;
 
 # Update ClamAV database
 echo "Looking for ClamAV database updates...";

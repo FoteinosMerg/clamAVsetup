@@ -1,4 +1,3 @@
-# Gmail settings
 set imap_user = EMAIL_FROM
 set imap_pass = EMAIL_PASSWORD
 set smtp_url = smtp://SMTP_URL/

@@ -10,10 +10,11 @@ sudo apt-get purge --auto-remove mutt -y
 sudo apt-get update
 sudo apt-get install mutt -y
 
-# mutt config
-EMAIL_FROM=$1
+# mutt gmail config
+USERNAME=$1
+EMAIL_FROM="$USERNAME@gmail.com"
 EMAIL_PASSWORD=$2
-SMTP_URL="foteinosmerg@smtp.gmail.com:587"
+SMTP_URL="$USERNAME@smtp.gmail.com:587"
 COMPUTER=$3
 SET_FOLDER="imap.gmail.com:993"
 sudo cp .muttrc ~/.muttrc

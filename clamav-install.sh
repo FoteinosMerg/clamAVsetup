@@ -1,5 +1,12 @@
 #!/bin/bash
 
+# USAGE
+# clamav-install.sh <USERNAME> <EMAIL_PASSWORD> <COMPUTER>?
+
+USERNAME=$1
+EMAIL_PASSWORD=$2
+COMPUTER=$3
+
 sudo apt-get update
 
 # Install separately some prerequisites ----------------------------------------
@@ -44,11 +51,7 @@ grep -i check /etc/clamav/freshclam.conf
 
 # Databases creation -----------------------------------------------------------
 
-if [ -d /usr/local/share/clamav ]
-then
-    sudo rm -rf /usr/local/share/clamav
-fi
-sudo mkdir /usr/local/share/clamav
+sudo mkdir -p /var/lib/clamav
 
 # Users and user-privileges cnfiguration ---------------------------------------
 
@@ -60,6 +63,10 @@ sudo groupadd clamav
 sudo useradd -g clamav -s /bin/false -c "clamAv" clamav
 # Set user ownership for the database directory
 sudo chown -R clamav:clamav /usr/local/share/clamav
+
+# Report configuration ---------------------------------------------------------
+
+sudo ./mutt-install.sh $USERNAME $EMAIL_PASSWORD $COMPUTER
 
 # Download and update signature databases --------------------------------------
 sudo ldconfig
