@@ -1,4 +1,5 @@
 irrelevants/
+logs/
 clamav-0.101.1/
 clamav-0.101.1.tar.gz
 clamav-install-old.sh
@@ -12,3 +13,4 @@ ssmtp-install.sh
 ssmtp.conf
 ssmtp.conf ssmtp-install.sh
 setup-save.sh
+checkOS.sh
