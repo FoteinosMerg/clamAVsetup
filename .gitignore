@@ -11,3 +11,4 @@ clamav-istall.sh
 freshclam.conf
 ssmtp-install.sh
 ssmtp.conf
+ssmtp.conf ssmtp-install.sh
