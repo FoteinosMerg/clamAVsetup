@@ -37,8 +37,8 @@ _USERNAME=$(echo $1 | cut -d@ -f1)
 EMAIL_PASSWORD=$2
 SERVER=$3 # mail.riseup.net
 ID=$4
-# SET_FOLDER="imap.gmail.com:993"
-sudo rm ~/,muttrc*
+
+sudo rm ~/.muttrc* # TO DO: include backup 
 sudo cp .muttrc ~/.muttrc
 sudo chmod 600 ~/.muttrc
 
