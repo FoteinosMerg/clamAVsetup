@@ -1,9 +1,9 @@
 #!/bin/bash
 
 # USAGE
-# clamav-install.sh <USERNAME> <EMAIL_PASSWORD> <COMPUTER>?
+# clamav-install.sh <EMAIL_USERNAME> <EMAIL_PASSWORD> <COMPUTER>?
 
-USERNAME=$1
+EMAIL_USERNAME=$1
 EMAIL_PASSWORD=$2
 COMPUTER=$3
 
@@ -66,7 +66,7 @@ sudo chown -R clamav:clamav /usr/local/share/clamav
 
 # Report configuration ---------------------------------------------------------
 
-sudo ./mutt-install.sh $USERNAME $EMAIL_PASSWORD $COMPUTER
+sudo ./mutt-install.sh $EMAIL_USERNAME $EMAIL_PASSWORD $COMPUTER
 
 # Download and update signature databases --------------------------------------
 sudo ldconfig

@@ -11,10 +11,10 @@ sudo apt-get update
 sudo apt-get install mutt -y
 
 # mutt gmail config
-USERNAME=$1
-EMAIL_FROM="$USERNAME@gmail.com"
+EMAIL_USERNAME=$1
+EMAIL_FROM="$EMAIL_USERNAME@gmail.com"
 EMAIL_PASSWORD=$2
-SMTP_URL="$USERNAME@smtp.gmail.com:587"
+SMTP_URL="$EMAIL_USERNAME@smtp.gmail.com:587"
 COMPUTER=$3
 SET_FOLDER="imap.gmail.com:993"
 sudo cp .muttrc ~/.muttrc
@@ -35,5 +35,3 @@ echo ""
 echo "User specific configuration at:"
 sudo ls -rtlha ~ | grep mutt
 echo "-------------------------------------------------------------------------"
-
-# echo "_test attach" | mutt -s "_subject" foteinosmerg@protonmail.com -a .muttrc
