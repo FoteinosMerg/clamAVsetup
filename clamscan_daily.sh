@@ -1,13 +1,12 @@
 #!/bin/bash
 
 # USAGE
-#./clamscan_daily.sh <DIRTOSCAN>
+#./clamscan_daily.sh <DIRTOSCAN> <EMAIL_TO>
 
 LOGFILE="/var/log/clamav/clamav-$(date +'%Y-%m-%d').log";
 EMAIL_MSG="Please see the log file attached.";
-EMAIL_FROM="foteinosmerg@gmail.com";
-EMAIL_TO="foteinosmerg@protonmail.com";
 DIRTOSCAN=$1;
+EMAIL_TO=$2
 
 # Update ClamAV database
 echo "Looking for ClamAV database updates...";
@@ -40,10 +39,10 @@ MALWARE=$(tail "$LOGFILE"|grep Infected|cut -d" " -f3);
 # if the value is not equal to zero, send an email with the log file attached
 if [ "$MALWARE" -ne "0" ];then
   #using heirloom-mailx below
-  sudo echo "$EMAIL_MSG" | mutt -s "Malware Found" "$EMAIL_TO" -a "$LOGFILE" #-s "Malware Found" -r "$EMAIL_FROM" "$EMAIL_TO";
+  sudo echo "$EMAIL_MSG" | sudo mutt -s "Malware Found" "$EMAIL_TO" -a "$LOGFILE" #-s "Malware Found" -r "$EMAIL_FROM" "$EMAIL_TO";
 fi
 
-sudo echo "$EMAIL_MSG" | mutt -s "Malware Found" "$EMAIL_TO" -a "$LOGFILE" #
+sudo echo "$EMAIL_MSG" | sudo mutt -s "Malware Found" "$EMAIL_TO" -a "$LOGFILE" #
 
 exit 0
 
