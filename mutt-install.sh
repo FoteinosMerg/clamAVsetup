@@ -38,6 +38,7 @@ EMAIL_PASSWORD=$2
 SERVER=$3 # mail.riseup.net
 ID=$4
 # SET_FOLDER="imap.gmail.com:993"
+sudo rm ~/,muttrc*
 sudo cp .muttrc ~/.muttrc
 sudo chmod 600 ~/.muttrc
 
