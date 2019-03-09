@@ -1,29 +1,50 @@
 #!/bin/bash
 
 # USAGE:
-# ./mutt-install <EMAIL_FROM> <EMAIL_PASSWORD> <COMPUTER>
+# ./mutt-install <EMAIL_FROM> <EMAIL_PASSWORD> <SERVER> <ID>
 #
 # mutt USAGE:
 # echo <BODY_TEXT> | mutt -s <SUBJECT> <EMAIL_TO> -a <ATTACHED_FILE>
 
-sudo apt-get purge --auto-remove mutt -y
-sudo apt-get update
-sudo apt-get install mutt -y
+# Find OS
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    # CYGWIN*)    machine=Cygwin;;
+    # MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
+machine=${machine}
+
+# Install mutt
+if [ machine=="Linux" ]; then
+  sudo apt-get purge --auto-remove mutt -y
+  sudo apt-get update
+  sudo apt-get install mutt -y
+elif [ machine=="Mac" ]; then
+  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  brew uninstall -f mutt
+  brew install mutt
+else
+  echo "OS unknown"
+  exit 0
+fi
 
 # mutt gmail config
-EMAIL_USERNAME=$1
-EMAIL_FROM="$EMAIL_USERNAME@gmail.com"
+EMAIL_FROM=$1
+_USERNAME=$(echo $1 | cut -d@ -f1)
 EMAIL_PASSWORD=$2
-SMTP_URL="$EMAIL_USERNAME@smtp.gmail.com:587"
-COMPUTER=$3
-SET_FOLDER="imap.gmail.com:993"
+SERVER=$3 # mail.riseup.net
+ID=$4
+# SET_FOLDER="imap.gmail.com:993"
 sudo cp .muttrc ~/.muttrc
 sudo chmod 600 ~/.muttrc
+sudo sed -i "s/ID/$ID/g" ~/.muttrc
+sudo sed -i "s/USERNAME/$_USERNAME/g" ~/.muttrc
 sudo sed -i "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
+sudo sed -i "s/SERVER/$SERVER/g" ~/.muttrc
 sudo sed -i "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
-sudo sed -i "s/SMTP_URL/$SMTP_URL/g" ~/.muttrc
-sudo sed -i "s/COMPUTER/$COMPUTER/g" ~/.muttrc
-sudo sed -i "s/SET_FOLDER/$SET_FOLDER/g" ~/.muttrc
 
 sleep .5
 echo "-------------------------------------------------------------------------"

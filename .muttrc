@@ -1,11 +1,15 @@
-set imap_user = EMAIL_FROM
-set imap_pass = EMAIL_PASSWORD
-set smtp_url = smtp://SMTP_URL/
+# Account
+set realname  = ID
+set from      = EMAIL_FROM
+
+# Send
+set smtp_url  = smtps://USERNAME@SERVER/
 set smtp_pass = EMAIL_PASSWORD
-set from = EMAIL_FROM
-set realname = COMPUTER
-set folder =  imaps://SET_FOLDER
-set move = no
+
+# Connection
+set ssl_force_tls = yes
+set ssl_starttls  = yes
+
 set sort = 'threads'
 set sort_aux = 'last-date-received'
 set imap_check_subscribed
