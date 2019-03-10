@@ -85,9 +85,12 @@ elif [ ${machine} = "Mac" ]; then
 
 	# freshclam configuration ------------------------------------------------------
 	# cd /usr/local/etc/clamav
-	cp /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam.conf
-	sed -i '' 's/Example/#Example/g' /usr/local/etc/clamav/freshclam.conf
-	sed -i '' 's/#DatabaseDirectory/DatabaseDirectory/g' /usr/local/etc/clamav/freshclam.conf
+	# cp /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam.conf
+	cp freshclam.conf /usr/local/etc/clamav/freshclam.conf
+	# sed -i '' 's/Example/#Example/g' /usr/local/etc/clamav/freshclam.conf
+	# sed -i '' 's/#DatabaseDirectory/DatabaseDirectory/g' /usr/local/etc/clamav/freshclam.conf
+
+	sudo mkdir -p /var/log/clamav
 
 	# Display info about freshclam update (manual update with: freshclam -v)
 	ps -ef | grep fresh | grep clam
@@ -96,6 +99,7 @@ elif [ ${machine} = "Mac" ]; then
 	# Databases creation -----------------------------------------------------------
 
 	sudo mkdir -p /var/lib/clamav
+	sudo chown -R clamav:wheel /var/log/clamav/
 
 	# Users and user-privileges cnfiguration ---------------------------------------
 
