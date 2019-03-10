@@ -67,7 +67,7 @@ fi
 sleep .5
 echo "-------------------------------------------------------------------------"
 which mutt
-echo ""
+echo
 echo "User specific configuration at:"
 sudo ls -rtlha ~ | grep -w .muttrc
 echo "-------------------------------------------------------------------------"

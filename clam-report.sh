@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # USAGE
-#./clamscan_daily.sh <DIRTOSCAN> <EMAIL_TO>
+#./clam-report.sh <DIRTOSCAN> <EMAIL_TO>
 
 sudo freshclam -v
 
