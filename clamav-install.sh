@@ -78,10 +78,10 @@ if [ ${machine} = "Linux" ]; then
 elif [ ${machine} = "Mac" ]; then
 	which -s brew
 	if [[ $? != 0 ]] ; then
-	    # Install Homebrew
+	    # Install homebrew
 	    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
 	else
-	    echo Homebrew is installed. Upgrade
+	    echo "Homebrew is installed. Upgrade"
 	    brew update
 	fi
 	brew reinstall -f clamav
@@ -119,6 +119,8 @@ else
   exit 2
 fi
 
+sudo mkdir -p ~/.clamav-logs # Create logs dir
+
 # Update database (final check) ------------------------------------------------
 
 echo "-------------------------------------------------------------------------"
@@ -133,7 +135,7 @@ echo
 which clamscan
 which freshclam
 echo
-echo "San reports will be stored at: ~/.clamav-reports"
+echo "Scan logs will be stored at: ~/.clamav-logs"
 echo "-------------------------------------------------------------------------"
 sleep .5
 
