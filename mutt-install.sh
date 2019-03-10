@@ -6,17 +6,19 @@
 # mutt USAGE:
 # echo <BODY_TEXT> | mutt -s <SUBJECT> <EMAIL_TO> -a <ATTACHED_FILE>
 
-# Find OS
+# Find OS ----------------------------------------------------------------------
+
 unameOut="$(uname -s)"
 case "${unameOut}" in
     Linux*)     machine=Linux;;
     Darwin*)    machine=Mac;;
     # CYGWIN*)    machine=Cygwin;;
     # MINGW*)     machine=MinGw;;
-    *)          machine="UNKNOWN:${unameOut}"
+    *)          machine="UNKNOWN: ${unameOut}"
 esac
 
-# Install mutt
+# Install mutt -----------------------------------------------------------------
+
 if [ ${machine} = "Linux" ]; then
   sudo apt-get purge --auto-remove mutt -y
   sudo apt-get update
@@ -28,21 +30,22 @@ elif [ ${machine} = "Mac" ]; then
       # Install Homebrew
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   else
-      echo Homebrew is installed. Upgrade
+      echo "Homebrew is installed. Upgrade"
       brew update
   fi
   brew uninstall -f mutt && brew install mutt
 
 else
-  echo "OS unknown, exiting."
-  exit 0
+  echo "OS unknown. Exiting"
+  exit 2
 fi
 
-# mutt gmail config
+# mutt config ------------------------------------------------------------------
+
 EMAIL_FROM=$1
-_USERNAME=$(echo $1 | cut -d@ -f1)
+USERNAME=$(echo $1 | cut -d@ -f1)
 EMAIL_PASSWORD=$2
-SERVER=$3 # mail.riseup.net
+SERVER=$3
 ID=$4
 
 sudo rm ~/.muttrc* # TO DO: include backup
@@ -51,26 +54,26 @@ sudo chmod 600 ~/.muttrc
 
 if [ ${machine} = "Linux" ]; then
   sudo sed -i "s/ID/$ID/g" ~/.muttrc
-  sudo sed -i "s/USERNAME/$_USERNAME/g" ~/.muttrc
+  sudo sed -i "s/USERNAME/$USERNAME/g" ~/.muttrc
   sudo sed -i "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
   sudo sed -i "s/SERVER/$SERVER/g" ~/.muttrc
   sudo sed -i "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
 else # MacOS
   sudo sed -i '' "s/ID/$ID/g" ~/.muttrc
-  sudo sed -i '' "s/USERNAME/$_USERNAME/g" ~/.muttrc
+  sudo sed -i '' "s/USERNAME/$USERNAME/g" ~/.muttrc
   sudo sed -i '' "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
   sudo sed -i '' "s/SERVER/$SERVER/g" ~/.muttrc
   sudo sed -i '' "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
 fi
 
+# Print info about successfull installation and configuration
+
 sleep .5
 echo "-------------------------------------------------------------------------"
 which mutt
 echo ""
-echo "Global configuration at:"
-# macos does not support --ignore flag. 
-sudo ls -rtlha --ignore=*.d /etc | grep Mutt
-echo ""
 echo "User specific configuration at:"
 sudo ls -rtlha ~ | grep mutt
 echo "-------------------------------------------------------------------------"
+sleep .5
+exit 0

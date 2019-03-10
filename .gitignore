@@ -14,3 +14,4 @@ ssmtp.conf
 ssmtp.conf ssmtp-install.sh
 setup-save.sh
 checkOS.sh
+*log
