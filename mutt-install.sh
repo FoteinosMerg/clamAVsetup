@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-# USAGE:
-# ./mutt-install <ID> <USERNAME> <PASSWORD> <SERVER>
+# USAGE: ./mutt-install <ID> <USERNAME> <PASSWORD> <SERVER>
 
 # Find OS ----------------------------------------------------------------------
 
