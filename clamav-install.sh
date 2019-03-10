@@ -21,21 +21,19 @@ if [ ${machine} = "Linux" ]; then
 
   # Install separately Linux prerequisites -------------------------------------
 
-	packages=(
-      gcc
-      clang
-      build-essential
-      openssl
-      libssl-dev
-      libcurl4-openssl-dev
-      zlib1g-dev
-      libpng-dev
-      libxml2-dev
-      libjson-c-dev
-      libbz2-dev
-      libpcre3-dev
-      ncurses-dev
-  )
+	packages=(gcc
+            clang
+            build-essential
+            openssl
+            libssl-dev
+            libcurl4-openssl-dev
+            zlib1g-dev
+            libpng-dev
+            libxml2-dev
+            libjson-c-dev
+            libbz2-dev
+            libpcre3-dev
+            ncurses-dev)
 	already_installed=()
 	for package in "${packages[@]}"
 	do
