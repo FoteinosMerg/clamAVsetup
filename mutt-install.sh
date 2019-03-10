@@ -22,11 +22,19 @@ if [ ${machine} = "Linux" ]; then
   sudo apt-get update
   sudo apt-get install mutt -y
 elif [ ${machine} = "Mac" ]; then
-  /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
-  brew uninstall -f mutt
-  brew install mutt
+  # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  which -s brew
+  if [[ $? != 0 ]] ; then
+      # Install Homebrew
+      ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  else
+      echo Homebrew is installed. Upgrade
+      brew update
+  fi
+  brew uninstall -f mutt && brew install mutt
+
 else
-  echo "OS unknown"
+  echo "OS unknown, exiting."
   exit 0
 fi
 
@@ -60,6 +68,7 @@ echo "-------------------------------------------------------------------------"
 which mutt
 echo ""
 echo "Global configuration at:"
+# macos does not support --ignore flag. 
 sudo ls -rtlha --ignore=*.d /etc | grep Mutt
 echo ""
 echo "User specific configuration at:"
