@@ -2,6 +2,8 @@
 #
 # USAGE: ./mutt-install <ID> <USERNAME> <PASSWORD> <SERVER>
 
+echo
+
 # Find OS ----------------------------------------------------------------------
 
 unameOut="$(uname -s)"

@@ -35,15 +35,17 @@ if [ ${machine} = "Linux" ]; then
             libpcre3-dev
             ncurses-dev)
 	already_installed=()
+  echo
 	for package in "${packages[@]}"
 	do
 	  dpkg -s $package >/dev/null 2>&1 && {
-	      echo "* $package already installed"
+	      echo " * $package already installed"
 	  } || {
 	      sudo apt-get install -y $package
 	      already_installed+=( $package )
 	  }
 	done
+  echo
 
   # Installation of main packages ----------------------------------------------
 
@@ -130,6 +132,8 @@ clamscan -V
 echo
 which clamscan
 which freshclam
+echo
+echo "San reports will be stored at: ~/.clamav-reports"
 echo "-------------------------------------------------------------------------"
 sleep .5
 
