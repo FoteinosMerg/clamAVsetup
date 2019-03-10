@@ -1,30 +1,40 @@
 #!/bin/bash
 
-sudo apt-get update
+echo
+
+# Find OS
+unameOut="$(uname -s)"
+case "${unameOut}" in
+    Linux*)     machine=Linux;;
+    Darwin*)    machine=Mac;;
+    # CYGWIN*)    machine=Cygwin;;
+    # MINGW*)     machine=MinGw;;
+    *)          machine="UNKNOWN:${unameOut}"
+esac
 
 # Install separately some prerequisites ----------------------------------------
 
-packages=(gcc clang build-essential openssl libssl-dev libcurl4-openssl-dev zlib1g-dev libpng-dev libxml2-dev libjson-c-dev libbz2-dev libpcre3-dev ncurses-dev)
-already_installed=()
-for package in "${packages[@]}"
-do
-  dpkg -s $package >/dev/null 2>&1 && {
-      echo "*** $package" already installed
-  } || {
-      sudo apt-get install -y $package
-      already_installed+=( $package )
-  }
-done
 
-# Installation of main packages ------------------------------------------------
+if [ ${machine} = "Linux" ]; then
+	sudo apt-get update
 
-sudo apt-get install clamav clamav-freshclam #heirloom-mailx
-sleep .5
-echo "-------------------------------------------------------------------------"
-which clamscan
-which freshclam
-echo "-------------------------------------------------------------------------"
-sleep .5
+	packages=(gcc clang build-essential openssl libssl-dev libcurl4-openssl-dev zlib1g-dev libpng-dev libxml2-dev libjson-c-dev libbz2-dev libpcre3-dev ncurses-dev)
+	already_installed=()
+	for package in "${packages[@]}"
+	do
+	  dpkg -s $package >/dev/null 2>&1 && {
+	      echo "*** $package" already installed
+	  } || {
+	      sudo apt-get install -y $package
+	      already_installed+=( $package )
+	  }
+	done
+
+	# Installation of main packages ------------------------------------------------
+
+	sudo apt-get install clamav clamav-freshclam #heirloom-mailx
+
+
 
 # freshclam configuration ------------------------------------------------------
 
@@ -60,3 +70,54 @@ sudo chown -R clamav:clamav /usr/local/share/clamav
 # Download and update signature databases --------------------------------------
 sudo ldconfig
 sudo freshclam
+
+elif [ ${machine} = "Mac" ]; then
+	which -s brew
+	if [[ $? != 0 ]] ; then
+	    # Install Homebrew
+	    ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+	else
+	    echo Homebrew is installed. Upgrade
+	    brew update
+	fi
+	brew reinstall -f clamav
+
+
+	# freshclam configuration ------------------------------------------------------
+	# cd /usr/local/etc/clamav
+	cp /usr/local/etc/clamav/freshclam.conf.sample /usr/local/etc/clamav/freshclam.conf
+	sed -i '' 's/Example/#Example/g' /usr/local/etc/clamav/freshclam.conf
+	sed -i '' 's/#DatabaseDirectory/DatabaseDirectory/g' /usr/local/etc/clamav/freshclam.conf
+
+	# Display info about freshclam update (manual update with: freshclam -v)
+	ps -ef | grep fresh | grep clam
+	grep -i check  /usr/local/etc/clamav/freshclam.conf
+
+	# Databases creation -----------------------------------------------------------
+
+	sudo mkdir -p /var/lib/clamav
+
+	# Users and user-privileges cnfiguration ---------------------------------------
+
+	# Delete group if it already exists
+	sudo dscl . -create /Groups/clamav
+	# Create the clamav user account
+	sudo dscl . -create /Users/clamav
+	# Set user ownership for the database directory
+	# bug: group cannot be assigned
+	sudo chown -R clamav: /usr/local/share/clamav
+
+	# Download and update signature databases --------------------------------------
+	sudo update_dyld_shared_cache
+	sudo freshclam
+fi
+
+
+sleep .5
+echo "-------------------------------------------------------------------------"
+which clamscan
+which freshclam
+echo "-------------------------------------------------------------------------"
+sleep .5
+
+
