@@ -1,10 +1,10 @@
 # Account
 set realname  = ID
-set from      = EMAIL_FROM
+set from      = USERNAME@SERVER
 
 # Send
-set smtp_url  = smtps://USERNAME@SERVER/
-set smtp_pass = EMAIL_PASSWORD
+set smtp_url  = smtps://USERNAME@mail.SERVER/
+set smtp_pass = PASSWORD
 
 # Connection
 set ssl_force_tls = yes

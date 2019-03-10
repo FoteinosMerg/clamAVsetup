@@ -1,10 +1,7 @@
 #!/bin/bash
-
-# USAGE:
-# ./mutt-install <EMAIL_FROM> <EMAIL_PASSWORD> <SERVER> <ID>
 #
-# mutt USAGE:
-# echo <BODY_TEXT> | mutt -s <SUBJECT> <EMAIL_TO> -a <ATTACHED_FILE>
+# USAGE:
+# ./mutt-install <ID> <USERNAME> <PASSWORD> <SERVER>
 
 # Find OS ----------------------------------------------------------------------
 
@@ -27,7 +24,7 @@ elif [ ${machine} = "Mac" ]; then
   # /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   which -s brew
   if [[ $? != 0 ]] ; then
-      # Install Homebrew
+      # Install homebrew
       ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
   else
       echo "Homebrew is installed. Upgrade"
@@ -42,38 +39,39 @@ fi
 
 # mutt config ------------------------------------------------------------------
 
-EMAIL_FROM=$1
-USERNAME=$(echo $1 | cut -d@ -f1)
-EMAIL_PASSWORD=$2
-SERVER=$3
-ID=$4
+ID=$1
+USERNAME=$2
+PASSWORD=$3
+SERVER=$4
 
-sudo rm ~/.muttrc* # TO DO: include backup
+# Backup possibly pre-existing .muttrc file
+if [ -f ~/.muttrc ]; then
+    sudo mv ~/.muttrc ~/.muttrc_backup-$(sudo date +"%Y-%m-%d_%H-%M-%S")
+fi
 sudo cp .muttrc ~/.muttrc
 sudo chmod 600 ~/.muttrc
 
+# Write config
 if [ ${machine} = "Linux" ]; then
   sudo sed -i "s/ID/$ID/g" ~/.muttrc
   sudo sed -i "s/USERNAME/$USERNAME/g" ~/.muttrc
-  sudo sed -i "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
+  sudo sed -i "s/PASSWORD/$PASSWORD/g" ~/.muttrc
   sudo sed -i "s/SERVER/$SERVER/g" ~/.muttrc
-  sudo sed -i "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
 else # MacOS
   sudo sed -i '' "s/ID/$ID/g" ~/.muttrc
   sudo sed -i '' "s/USERNAME/$USERNAME/g" ~/.muttrc
-  sudo sed -i '' "s/EMAIL_FROM/$EMAIL_FROM/g" ~/.muttrc
+  sudo sed -i '' "s/PASSWORD/$PASSWORD/g" ~/.muttrc
   sudo sed -i '' "s/SERVER/$SERVER/g" ~/.muttrc
-  sudo sed -i '' "s/EMAIL_PASSWORD/$EMAIL_PASSWORD/g" ~/.muttrc
 fi
 
-# Print info about successfull installation and configuration
-
+# Print info about successfull installation and configuration ------------------
 sleep .5
 echo "-------------------------------------------------------------------------"
 which mutt
 echo ""
 echo "User specific configuration at:"
-sudo ls -rtlha ~ | grep mutt
+sudo ls -rtlha ~ | grep -w .muttrc
 echo "-------------------------------------------------------------------------"
 sleep .5
+
 exit 0
