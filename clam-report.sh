@@ -4,7 +4,7 @@
 #./clam-report.sh <DIR_TO_SCAN> <EMAIL_TO>
 
 DIR_TO_SCAN=$1;
-DIR_SIZE=$(sudo du -sh "$DIR_TO_SCAN" 2>/dev/null | cut -f1); # humam readable size
+DIR_SIZE=$(sudo du -sh "$DIR_TO_SCAN" 2>/dev/null | cut -f1);       # humam readable size
 DIR_SIZE_KBYTES=$(sudo du -s "$DIR_TO_SCAN" 2>/dev/null | cut -f1); # size in kilobytes
 EMAIL_TO=$2
 EMAIL_BODY="Please read the .log file attached"
@@ -47,13 +47,11 @@ sleep .75
 echo "Niceness level             : $N"
 sleep .75
 
-# Create log-file and firectory for collected files
+# Create log-file and directory for collected files
+
 LOG_FILE="clamav_$(sudo date +"%Y-%m-%d_%H-%M-%S").log" # Identified by date-time
 touch "$LOG_FILE"
-if [ -d INFECTED ]; then
-  rm -r INFECTED
-fi
-mkdir INFECTED
+rm -rf INFECTED/* && mkdir -p INFECTED
 
 # Start scanning
 echo "Started at                 : $(sudo date +"%H:%M:%S, %Y-%m-%d")"
