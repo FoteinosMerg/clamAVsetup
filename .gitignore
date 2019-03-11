@@ -6,8 +6,6 @@ clamav-install-old.sh
 uninstall.sh
 utils.sh
 workflow.sh
-clamav-install.sh
-clamav-istall.sh
 ssmtp-install.sh
 ssmtp.conf
 ssmtp.conf ssmtp-install.sh
