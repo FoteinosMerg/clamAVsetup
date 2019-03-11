@@ -1,0 +1,25 @@
+# Account
+set realname  = ID
+set from      = USERNAME@SERVER
+
+# Send
+set smtp_url  = smtps://USERNAME@mail.SERVER/
+set smtp_pass = PASSWORD
+
+# Connection
+set ssl_force_tls = yes
+set ssl_starttls  = yes
+
+set sort = 'threads'
+set sort_aux = 'last-date-received'
+set imap_check_subscribed
+
+# Some tweaks
+set imap_keepalive = 300
+set mail_check = 90
+set timeout = 15
+set charset = iso-8859-1
+
+ignore *
+unignore From Date Subject To Cc
+hdr_order Date From To Cc

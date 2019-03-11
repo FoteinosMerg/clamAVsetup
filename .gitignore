@@ -1,0 +1,18 @@
+irrelevants/
+logs/
+clamav-0.101.1/
+clamav-0.101.1.tar.gz
+clamav-install-old.sh
+uninstall.sh
+utils.sh
+workflow.sh
+clamav-install.sh
+clamav-istall.sh
+freshclam.conf
+ssmtp-install.sh
+ssmtp.conf
+ssmtp.conf ssmtp-install.sh
+setup-save.sh
+checkOS.sh
+*log
+clamav-latest/
