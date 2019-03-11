@@ -28,7 +28,7 @@ sleep .75
 
 # Resolve niceness: rude to others (bigger size -> higher priority)
 
-N=0                                                    # niceness (default value)
+N=0                                                    # niceness default value
 
 if [ "$DIR_SIZE_KBYTES" -ge $((5*$((10**8)))) ]; then  # 500 GB <= size
   N=-10
@@ -55,7 +55,7 @@ sleep .75
 # Create log-file and directory of detected files
 
 LOG_FILE="clamav_$(sudo date +"%Y-%m-%d_%H-%M-%S").log"      # Identified by date-time
-touch "$LOG_FILE"
+rm -f clamav*.log && touch "$LOG_FILE"
 rm -rf INFECTED/* && mkdir -p INFECTED
 
 # Perform scanning
