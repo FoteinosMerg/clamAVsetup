@@ -4,11 +4,9 @@
 #./clam-report.sh <DIR_TO_SCAN> <EMAIL_TO>
 #
 
-# Variables
 DIR_TO_SCAN=$1;
 DIR_SIZE=$(sudo du -sh "$DIR_TO_SCAN" 2>/dev/null | cut -f1);       # humam readable size
 DIR_SIZE_KBYTES=$(sudo du -s "$DIR_TO_SCAN" 2>/dev/null | cut -f1); # size in kilobytes
-N=0                                                                 # niceness (default value)
 EMAIL_TO=$2
 EMAIL_BODY="Please read the .log file attached"
 SUBJECT="* ClamAV: MALWARE FOUND *"
@@ -17,6 +15,7 @@ SUBJECT="* ClamAV: MALWARE FOUND *"
 # TO DO
 
 # Update ClamAV database
+
 echo
 echo "Updating ClamAV database..."
 sleep .75
@@ -28,6 +27,8 @@ echo "ClamAV database updated"
 sleep .75
 
 # Resolve niceness: rude to others (bigger size -> higher priority)
+
+N=0                                                    # niceness (default value)
 
 if [ "$DIR_SIZE_KBYTES" -ge $((5*$((10**8)))) ]; then  # 500 GB <= size
   N=-10
@@ -53,9 +54,8 @@ sleep .75
 
 # Create log-file and directory of detected files
 
-LOG_FILE="clamav_$(sudo date +"%Y-%m-%d_%H-%M-%S").log" # Identified by date-time
+LOG_FILE="clamav_$(sudo date +"%Y-%m-%d_%H-%M-%S").log"      # Identified by date-time
 touch "$LOG_FILE"
-
 rm -rf INFECTED/* && mkdir -p INFECTED
 
 # Perform scanning
@@ -88,7 +88,9 @@ else                                                         # No infected files
 
 fi
 
-rm -r "$LOG_FILE" INFECTED # Delete log-file and directory of detected files
+# Delete log-file and directory of detected files, then exit
+
+rm -r "$LOG_FILE" INFECTED
 echo
 echo "Script finished."
 exit 0
